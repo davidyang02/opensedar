@@ -7,6 +7,7 @@ import {
 } from "@/data/issuers";
 import { getFilingsByIssuer } from "@/data/filings";
 import { IssuerFilingsList } from "@/components/IssuerFilingsList";
+import { WatchStar } from "@/components/WatchStar";
 import { formatMarketCap } from "@/lib/formatters";
 
 // Only pre-render the hand-curated 8 statically. Everything else (the 2,200
@@ -49,7 +50,7 @@ export default async function IssuerPage({
       <header className="bg-white border border-slate-200 rounded-lg p-6 mb-6">
         <div className="flex items-start justify-between gap-4 flex-wrap">
           <div className="flex-1 min-w-0">
-            <div className="flex items-baseline gap-3">
+            <div className="flex items-baseline gap-3 flex-wrap">
               <h1 className="text-2xl font-bold text-slate-900">
                 {issuer.name}
               </h1>
@@ -62,7 +63,8 @@ export default async function IssuerPage({
             </div>
             <p className="mt-3 text-sm text-slate-600 max-w-3xl">{issuer.blurb}</p>
           </div>
-          <div className="flex flex-col gap-2 text-right">
+          <div className="flex flex-col gap-2 items-end">
+            <WatchStar ticker={issuer.ticker} withLabel />
             {issuer.websiteUrl && (
               <a
                 href={issuer.websiteUrl}

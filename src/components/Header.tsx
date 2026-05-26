@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { GlobalSearch } from "./GlobalSearch";
+import { WatchlistNavBadge } from "./WatchlistNavBadge";
 
 export default function Header() {
   return (
@@ -20,6 +21,7 @@ export default function Header() {
           <Link href="/issuers" className="hover:text-slate-900">
             Issuers
           </Link>
+          <WatchlistNavBadge />
           <Link href="/about" className="hover:text-slate-900">
             About
           </Link>
