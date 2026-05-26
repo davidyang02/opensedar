@@ -1,16 +1,16 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useMemo } from "react";
 import Link from "next/link";
-import { ISSUERS } from "@/data/issuers";
+import { searchIssuers, isHandCurated } from "@/data/issuers";
 import { FILINGS } from "@/data/filings";
 import { FILING_TYPE_SHORT } from "@/lib/types";
 import { formatDateShort } from "@/lib/formatters";
 
 /**
- * Instant client-side search across issuers + filings.
- * Demo-grade: filters in-memory over ~70 records, sub-millisecond.
- * Production version would proxy to /api/search with debounced server calls.
+ * Instant client-side search across ~2,200 TMX issuers + ~60 hand-curated
+ * filings. Uses searchIssuers() which delegates to the unified registry.
+ * Sub-millisecond filter on a 2,200-row array.
  */
 export function GlobalSearch() {
   const [query, setQuery] = useState("");
@@ -29,23 +29,23 @@ export function GlobalSearch() {
 
   const q = query.trim().toLowerCase();
 
-  const issuerMatches = q
-    ? ISSUERS.filter(
-        (i) =>
-          i.ticker.toLowerCase().includes(q) ||
-          i.name.toLowerCase().includes(q) ||
-          i.shortName?.toLowerCase().includes(q),
-      ).slice(0, 4)
-    : [];
+  const issuerMatches = useMemo(
+    () => (q ? searchIssuers(query, 8) : []),
+    [q, query],
+  );
 
-  const filingMatches = q
-    ? FILINGS.filter(
-        (f) =>
-          f.title.toLowerCase().includes(q) ||
-          f.summary.toLowerCase().includes(q) ||
-          f.fiscalPeriod?.toLowerCase().includes(q),
-      ).slice(0, 6)
-    : [];
+  const filingMatches = useMemo(
+    () =>
+      q
+        ? FILINGS.filter(
+            (f) =>
+              f.title.toLowerCase().includes(q) ||
+              f.summary.toLowerCase().includes(q) ||
+              f.fiscalPeriod?.toLowerCase().includes(q),
+          ).slice(0, 6)
+        : [],
+    [q],
+  );
 
   const hasResults = issuerMatches.length + filingMatches.length > 0;
 
@@ -100,12 +100,19 @@ export function GlobalSearch() {
                   className="block px-3 py-2 hover:bg-terminal-row-hover"
                 >
                   <div className="flex items-baseline justify-between gap-2">
-                    <span className="font-semibold text-sm text-slate-900">
+                    <span className="font-semibold text-sm text-slate-900 line-clamp-1">
                       {i.name}
                     </span>
-                    <span className="text-xs font-mono text-terminal-navy">
-                      {i.ticker}
-                    </span>
+                    <div className="flex items-center gap-1.5 shrink-0">
+                      {isHandCurated(i.ticker) && (
+                        <span className="px-1.5 py-0.5 text-[9px] uppercase tracking-wider bg-terminal-accent/15 text-terminal-accent border border-terminal-accent/30 rounded">
+                          Featured
+                        </span>
+                      )}
+                      <span className="text-xs font-mono text-terminal-navy">
+                        {i.ticker}
+                      </span>
+                    </div>
                   </div>
                   <div className="text-xs text-slate-500">
                     {i.exchange} · {i.industry}

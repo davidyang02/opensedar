@@ -1,5 +1,6 @@
 import Link from "next/link";
-import { ISSUERS } from "@/data/issuers";
+import { HAND_CURATED_ISSUERS } from "@/data/issuers";
+import { TMX_ISSUERS } from "@/data/allIssuers";
 import { getRecentFilings, FILINGS } from "@/data/filings";
 import { IssuerCard } from "@/components/IssuerCard";
 import { FilingRow } from "@/components/FilingRow";
@@ -7,9 +8,12 @@ import { FilingRow } from "@/components/FilingRow";
 export default function Home() {
   const recentFilings = getRecentFilings(12);
   const featuredFilings = FILINGS.filter((f) => f.hasExtractedContent);
-  const topIssuers = [...ISSUERS]
+  const topIssuers = [...HAND_CURATED_ISSUERS]
     .sort((a, b) => b.marketCapCadMillions - a.marketCapCadMillions)
     .slice(0, 6);
+  const totalIssuers = TMX_ISSUERS.length + HAND_CURATED_ISSUERS.filter(
+    (i) => !TMX_ISSUERS.some((t) => t.ticker.toUpperCase() === i.ticker.toUpperCase()),
+  ).length;
 
   return (
     <div className="max-w-7xl mx-auto px-6 py-10">
@@ -17,7 +21,7 @@ export default function Home() {
       <section className="mb-12">
         <div className="max-w-3xl">
           <div className="inline-block px-2 py-0.5 mb-3 text-[10px] uppercase tracking-wider bg-terminal-navy text-white rounded">
-            Demo preview · Canadian public filings
+            Demo preview · {totalIssuers.toLocaleString()} Canadian issuers tracked
           </div>
           <h1 className="text-4xl font-bold text-slate-900 tracking-tight">
             Canadian public filings,{" "}

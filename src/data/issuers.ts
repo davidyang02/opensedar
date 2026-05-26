@@ -1,11 +1,18 @@
 import { Issuer } from "@/lib/types";
+import { getRawIssuerByTicker, tmxToIssuer, TMX_ISSUERS } from "./allIssuers";
 
 /**
- * Hand-curated demo dataset of 8 Canadian public issuers.
+ * Hand-curated demo dataset of 8 Canadian public issuers — those with the
+ * richest profile + filings + extracted content. For everything else,
+ * we fall back to the auto-generated TMX list in allIssuers.ts.
+ *
+ * Lookup order:
+ *   getIssuerByTicker() → hand-curated → TMX fallback → undefined
+ *
  * Big 6 banks + Shopify + Brookfield. Approximate market caps in CAD millions
  * (mid-2025 ballparks for the demo — not real-time).
  */
-export const ISSUERS: Issuer[] = [
+export const HAND_CURATED_ISSUERS: Issuer[] = [
   {
     ticker: "RY",
     name: "Royal Bank of Canada",
@@ -134,21 +141,75 @@ export const ISSUERS: Issuer[] = [
   },
 ];
 
-export function getIssuerByTicker(ticker: string): Issuer | undefined {
-  return ISSUERS.find(
-    (i) => i.ticker.toLowerCase() === ticker.toLowerCase(),
-  );
+// Map of hand-curated tickers for fast O(1) lookup
+const HAND_CURATED_INDEX: Record<string, Issuer> = (() => {
+  const idx: Record<string, Issuer> = {};
+  for (const i of HAND_CURATED_ISSUERS) {
+    idx[i.ticker.toUpperCase()] = i;
+  }
+  return idx;
+})();
+
+/** Hand-curated issuers are flagged as "deep" (have filings + extracted content). */
+export function isHandCurated(ticker: string): boolean {
+  return Boolean(HAND_CURATED_INDEX[ticker.toUpperCase()]);
 }
 
-export function searchIssuers(query: string): Issuer[] {
+/**
+ * Resolve an issuer by ticker. Hand-curated records take priority; otherwise
+ * we project the raw TMX record (~2,200 issuers) into the Issuer shape.
+ */
+export function getIssuerByTicker(ticker: string): Issuer | undefined {
+  const hand = HAND_CURATED_INDEX[ticker.toUpperCase()];
+  if (hand) return hand;
+  const raw = getRawIssuerByTicker(ticker);
+  return raw ? tmxToIssuer(raw) : undefined;
+}
+
+/**
+ * Search across all ~2,200 TMX-listed issuers + hand-curated records.
+ * Returns up to `limit` matches (default 20) for instant-feel search UX.
+ */
+export function searchIssuers(query: string, limit = 20): Issuer[] {
   const q = query.trim().toLowerCase();
   if (!q) return [];
-  return ISSUERS.filter(
-    (i) =>
+  const results: Issuer[] = [];
+  // Prefer hand-curated matches first (they have richer blurbs)
+  for (const i of HAND_CURATED_ISSUERS) {
+    if (
       i.ticker.toLowerCase().includes(q) ||
       i.name.toLowerCase().includes(q) ||
       i.shortName?.toLowerCase().includes(q) ||
       i.sector.toLowerCase().includes(q) ||
-      i.industry.toLowerCase().includes(q),
-  );
+      i.industry.toLowerCase().includes(q)
+    ) {
+      results.push(i);
+    }
+  }
+  // Then scan TMX. Skip tickers already returned via hand-curated.
+  const seen = new Set(results.map((r) => r.ticker.toUpperCase()));
+  for (const raw of TMX_ISSUERS) {
+    if (results.length >= limit) break;
+    if (seen.has(raw.ticker.toUpperCase())) continue;
+    if (
+      raw.ticker.toLowerCase().includes(q) ||
+      raw.name.toLowerCase().includes(q) ||
+      raw.sector.toLowerCase().includes(q) ||
+      raw.subSector.toLowerCase().includes(q)
+    ) {
+      results.push(tmxToIssuer(raw));
+    }
+  }
+  return results.slice(0, limit);
 }
+
+/** All known tickers — the union of hand-curated and TMX records. */
+export function getAllKnownTickers(): string[] {
+  const tickers = new Set<string>();
+  for (const i of HAND_CURATED_ISSUERS) tickers.add(i.ticker);
+  for (const i of TMX_ISSUERS) tickers.add(i.ticker);
+  return Array.from(tickers);
+}
+
+/** Backwards compatibility export — but most code should call getIssuerByTicker. */
+export const ISSUERS = HAND_CURATED_ISSUERS;

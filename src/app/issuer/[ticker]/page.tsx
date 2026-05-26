@@ -1,13 +1,22 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { getIssuerByTicker, ISSUERS } from "@/data/issuers";
+import {
+  getIssuerByTicker,
+  HAND_CURATED_ISSUERS,
+  isHandCurated,
+} from "@/data/issuers";
 import { getFilingsByIssuer } from "@/data/filings";
 import { IssuerFilingsList } from "@/components/IssuerFilingsList";
 import { formatMarketCap } from "@/lib/formatters";
 
+// Only pre-render the hand-curated 8 statically. Everything else (the 2,200
+// TMX issuers) is generated on first request. dynamicParams = true (default)
+// keeps the dynamic catch-all working.
 export function generateStaticParams() {
-  return ISSUERS.map((i) => ({ ticker: i.ticker }));
+  return HAND_CURATED_ISSUERS.map((i) => ({ ticker: i.ticker }));
 }
+
+export const dynamicParams = true;
 
 export default async function IssuerPage({
   params,
@@ -19,6 +28,7 @@ export default async function IssuerPage({
   if (!issuer) notFound();
 
   const filings = getFilingsByIssuer(issuer.ticker);
+  const isFeatured = isHandCurated(issuer.ticker);
 
   return (
     <div className="max-w-7xl mx-auto px-6 py-10">
@@ -98,11 +108,68 @@ export default async function IssuerPage({
         )}
       </header>
 
-      {/* Filings list */}
+      {/* Filings list — or "not yet tracked" state for non-featured issuers */}
       <section>
-        <h2 className="text-lg font-semibold text-slate-900 mb-3">Filings</h2>
-        <IssuerFilingsList filings={filings} />
+        <div className="flex items-baseline justify-between mb-3">
+          <h2 className="text-lg font-semibold text-slate-900">Filings</h2>
+          {isFeatured && (
+            <span className="text-xs px-2 py-0.5 bg-terminal-accent/15 text-terminal-accent border border-terminal-accent/30 rounded">
+              Featured · curated filings
+            </span>
+          )}
+        </div>
+        {filings.length > 0 ? (
+          <IssuerFilingsList filings={filings} />
+        ) : (
+          <NotYetTracked
+            issuerName={issuer.name}
+            ticker={issuer.ticker}
+            sedarUrl={issuer.sedarProfileUrl}
+          />
+        )}
       </section>
+    </div>
+  );
+}
+
+function NotYetTracked({
+  issuerName,
+  ticker,
+  sedarUrl,
+}: {
+  issuerName: string;
+  ticker: string;
+  sedarUrl: string;
+}) {
+  return (
+    <div className="bg-white border border-slate-200 rounded-lg p-8">
+      <div className="max-w-lg mx-auto text-center">
+        <h3 className="text-base font-semibold text-slate-900 mb-2">
+          Filings for {issuerName} aren&apos;t indexed yet
+        </h3>
+        <p className="text-sm text-slate-600 mb-6">
+          OpenSEDAR currently has hand-curated filings for 8 featured issuers
+          (the Big 6 banks, Shopify, and Brookfield). Full SEDAR+ filing
+          coverage for all 2,200+ tracked TSX/TSXV issuers is in development —
+          the production crawler is the next milestone.
+        </p>
+        <div className="flex flex-wrap gap-3 justify-center text-sm">
+          <a
+            href={sedarUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="px-4 py-2 bg-terminal-navy text-white rounded hover:bg-terminal-dark-navy transition-colors"
+          >
+            View {ticker} on SEDAR+ ↗
+          </a>
+          <Link
+            href="/about"
+            className="px-4 py-2 bg-white text-terminal-navy border border-terminal-navy rounded hover:bg-terminal-row-hover transition-colors"
+          >
+            How OpenSEDAR works
+          </Link>
+        </div>
+      </div>
     </div>
   );
 }
