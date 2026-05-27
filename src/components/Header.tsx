@@ -1,8 +1,15 @@
+"use client";
+
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { GlobalSearch } from "./GlobalSearch";
 import { WatchlistNavBadge } from "./WatchlistNavBadge";
 
 export default function Header() {
+  const pathname = usePathname();
+  // Hide the default OpenSEDAR header on BamSEC-style routes —
+  // they render their own dark header via /bamsec/layout.tsx.
+  if (pathname?.startsWith("/bamsec")) return null;
   return (
     <header className="border-b border-slate-200 bg-white sticky top-0 z-30">
       <div className="max-w-7xl mx-auto px-6 h-14 flex items-center gap-8">
