@@ -1,15 +1,8 @@
-"use client";
-
 import Link from "next/link";
-import { usePathname } from "next/navigation";
 import { GlobalSearch } from "./GlobalSearch";
 import { WatchlistNavBadge } from "./WatchlistNavBadge";
 
 export default function Header() {
-  const pathname = usePathname();
-  // Hide the default OpenSEDAR header on BamSEC-style routes —
-  // they render their own dark header via /bamsec/layout.tsx.
-  if (pathname?.startsWith("/bamsec")) return null;
   return (
     <header className="border-b border-slate-200 bg-white sticky top-0 z-30">
       <div className="max-w-7xl mx-auto px-6 h-14 flex items-center gap-8">
@@ -36,6 +29,15 @@ export default function Header() {
         <div className="flex-1 max-w-md ml-auto">
           <GlobalSearch />
         </div>
+        <a
+          href="https://notsedar.vercel.app"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="hidden lg:inline text-xs px-2 py-1 rounded border border-slate-300 text-slate-600 hover:bg-slate-50 hover:text-slate-900 transition-colors whitespace-nowrap"
+          title="Sister product: same data, BamSEC-style UI"
+        >
+          NotSEDAR ↗
+        </a>
       </div>
     </header>
   );
