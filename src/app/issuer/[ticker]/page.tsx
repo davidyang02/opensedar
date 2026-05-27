@@ -80,8 +80,9 @@ export default async function IssuerPage({
               target="_blank"
               rel="noopener noreferrer"
               className="text-xs text-terminal-navy hover:underline"
+              title="Opens SEDAR+ profile search — enter the ticker manually"
             >
-              View on SEDAR+ ↗
+              Search on SEDAR+ ↗
             </a>
           </div>
         </div>

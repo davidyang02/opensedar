@@ -71,10 +71,19 @@ export default function AboutPage() {
       <section className="mt-8 space-y-4 text-slate-700">
         <h2 className="text-xl font-semibold text-slate-900">Demo scope</h2>
         <p>
-          This is an early preview. The dataset is curated by hand — 8 issuers,
-          ~50 filings, 2 extracted in detail. The production version will
-          ingest SEDAR+ filings live and extract key data points using
-          structured-filing parsing (XBRL/iXBRL) plus user-driven AI extraction.
+          This is an early preview. We track 2,187 TSX/TSXV-listed issuers
+          (live from the April 2026 TMX snapshot), with hand-curated filings
+          for 8 featured issuers and 2 filings extracted in depth. The
+          production version will ingest SEDAR+ filings live and extract key
+          data points using structured-filing parsing (XBRL/iXBRL) plus
+          user-driven AI extraction.
+        </p>
+        <p>
+          <strong>Heads up on &ldquo;Find on SEDAR+&rdquo; links:</strong>{" "}
+          SEDAR+ doesn&apos;t expose deep-linkable search URLs, so those
+          buttons land you on the SEDAR+ document-search form where you enter
+          the ticker manually. The production version will deep-link to the
+          actual filing document via crawler-discovered IDs.
         </p>
         <p>
           OpenSEDAR ships standalone first. It will eventually merge into{" "}

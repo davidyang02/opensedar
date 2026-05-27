@@ -15,10 +15,15 @@ import { Filing } from "@/lib/types";
  * pipeline.)
  */
 
-function sedarUrl(ticker: string): string {
-  // Demo placeholder — links to the SEDAR+ search landing rather than a
-  // dead document URL.
-  return `https://www.sedarplus.ca/csa-party/service/results.html?search=${encodeURIComponent(ticker)}`;
+// SEDAR+ doesn't expose deep-linkable search URLs (no query params accepted).
+// All filing "View on SEDAR+" links land on the document-search form;
+// the user types the ticker manually. Real merge phase will use live
+// filing IDs from the crawler pipeline.
+const SEDAR_DOCUMENT_SEARCH =
+  "https://www.sedarplus.ca/csa-party/service/create.html?targetAppCode=csa-party&service=searchDocuments";
+
+function sedarUrl(_ticker: string): string {
+  return SEDAR_DOCUMENT_SEARCH;
 }
 
 export const FILINGS: Filing[] = [

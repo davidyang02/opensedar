@@ -51,7 +51,9 @@ export function tmxToIssuer(raw: RawTmxIssuer): Issuer {
     hq,
     marketCapCadMillions: raw.marketCapCadMillions,
     blurb: `${raw.name} is a ${raw.sector.toLowerCase() || "Canadian"} issuer listed on ${raw.exchange} (HQ ${hq}).`,
-    sedarProfileUrl: `https://www.sedarplus.ca/csa-party/service/results.html?search=${encodeURIComponent(raw.ticker)}`,
+    // SEDAR+ doesn't support deep-link search via query params. Land users
+    // on the working profile-search form; they enter the ticker manually.
+    sedarProfileUrl: "https://www.sedarplus.ca/csa-party/service/create.html?targetAppCode=csa-party&service=searchIndustryParticipant",
   };
 }
 

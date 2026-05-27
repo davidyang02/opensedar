@@ -25,12 +25,23 @@ export default function Home() {
           </div>
           <h1 className="text-3xl md:text-4xl font-bold text-slate-900 tracking-tight">
             Canadian public filings,{" "}
-            <span className="text-terminal-navy">without the friction.</span>
+            <span className="text-terminal-navy">without the slog.</span>
           </h1>
           <p className="mt-3 text-base md:text-lg text-slate-600 max-w-2xl">
-            A faster, cleaner browser over SEDAR+. Filings stream live, key
-            numbers surfaced, original PDFs always one click away. Star issuers
-            to build your watchlist.
+            SEDAR+ has every disclosure document filed by every Canadian
+            public company. It also has a 90s interface. OpenSEDAR is the
+            same data, surfaced cleanly — instant search, key numbers
+            extracted, original PDFs always one click away.
+          </p>
+          <p className="mt-3 text-sm text-slate-500 max-w-2xl">
+            Looking for institutional-grade filings access?{" "}
+            <Link
+              href="/contact"
+              className="text-terminal-navy underline hover:text-terminal-dark-navy"
+            >
+              Get in touch
+            </Link>
+            .
           </p>
         </div>
       </section>

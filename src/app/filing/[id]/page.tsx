@@ -86,8 +86,9 @@ export default async function FilingPage({
             target="_blank"
             rel="noopener noreferrer"
             className="px-4 py-1.5 bg-terminal-navy text-white rounded hover:bg-terminal-dark-navy transition-colors"
+            title="Opens SEDAR+ document search — enter the issuer ticker and filing date manually"
           >
-            View original on SEDAR+ ↗
+            Find on SEDAR+ ↗
           </a>
           {filing.pageCount && (
             <span className="px-4 py-1.5 text-slate-500 self-center">

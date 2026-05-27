@@ -26,7 +26,7 @@ export const HAND_CURATED_ISSUERS: Issuer[] = [
       "Canada's largest bank by market cap. Personal & commercial banking, wealth management, capital markets, and insurance across Canada, the US, and the Caribbean.",
     websiteUrl: "https://www.rbc.com",
     sedarProfileUrl:
-      "https://www.sedarplus.ca/csa-party/records/document.html?id=00000041",
+      "https://www.sedarplus.ca/csa-party/service/create.html?targetAppCode=csa-party&service=searchIndustryParticipant",
     osfiInstitutionName: "Royal Bank of Canada",
   },
   {
@@ -42,7 +42,7 @@ export const HAND_CURATED_ISSUERS: Issuer[] = [
       "Second-largest Canadian bank by assets, with major US retail banking footprint via TD Bank N.A. Recently emerged from US AML enforcement settlement.",
     websiteUrl: "https://www.td.com",
     sedarProfileUrl:
-      "https://www.sedarplus.ca/csa-party/records/document.html?id=00000050",
+      "https://www.sedarplus.ca/csa-party/service/create.html?targetAppCode=csa-party&service=searchIndustryParticipant",
     osfiInstitutionName: "Toronto-Dominion Bank",
   },
   {
@@ -58,7 +58,7 @@ export const HAND_CURATED_ISSUERS: Issuer[] = [
       "Canada's fourth-largest bank. Strong US Midwest presence following the BMO Harris and Bank of the West acquisitions. Active in capital markets and wealth.",
     websiteUrl: "https://www.bmo.com",
     sedarProfileUrl:
-      "https://www.sedarplus.ca/csa-party/records/document.html?id=00000031",
+      "https://www.sedarplus.ca/csa-party/service/create.html?targetAppCode=csa-party&service=searchIndustryParticipant",
     osfiInstitutionName: "Bank of Montreal",
   },
   {
@@ -74,7 +74,7 @@ export const HAND_CURATED_ISSUERS: Issuer[] = [
       "Canada's third-largest bank with the most international footprint among the Big 6, especially in Latin America (Mexico, Peru, Chile, Colombia).",
     websiteUrl: "https://www.scotiabank.com",
     sedarProfileUrl:
-      "https://www.sedarplus.ca/csa-party/records/document.html?id=00000032",
+      "https://www.sedarplus.ca/csa-party/service/create.html?targetAppCode=csa-party&service=searchIndustryParticipant",
     osfiInstitutionName: "Bank of Nova Scotia",
   },
   {
@@ -90,7 +90,7 @@ export const HAND_CURATED_ISSUERS: Issuer[] = [
       "Big 6 Canadian bank with a domestic focus and a growing US wealth management presence. Best-in-class digital banking platform among Canadian peers.",
     websiteUrl: "https://www.cibc.com",
     sedarProfileUrl:
-      "https://www.sedarplus.ca/csa-party/records/document.html?id=00000037",
+      "https://www.sedarplus.ca/csa-party/service/create.html?targetAppCode=csa-party&service=searchIndustryParticipant",
     osfiInstitutionName: "Canadian Imperial Bank of Commerce",
   },
   {
@@ -106,7 +106,7 @@ export const HAND_CURATED_ISSUERS: Issuer[] = [
       "Smallest of the Big 6 by assets, with a strong Quebec base. Acquired Canadian Western Bank in 2025 to expand into western Canada.",
     websiteUrl: "https://www.nbc.ca",
     sedarProfileUrl:
-      "https://www.sedarplus.ca/csa-party/records/document.html?id=00000036",
+      "https://www.sedarplus.ca/csa-party/service/create.html?targetAppCode=csa-party&service=searchIndustryParticipant",
     osfiInstitutionName: "National Bank of Canada",
   },
   {
@@ -122,7 +122,7 @@ export const HAND_CURATED_ISSUERS: Issuer[] = [
       "Global commerce platform powering millions of merchants. Dual-listed on TSX and NYSE. Largest TSX-listed tech company by market cap.",
     websiteUrl: "https://www.shopify.com",
     sedarProfileUrl:
-      "https://www.sedarplus.ca/csa-party/records/document.html?id=00026364",
+      "https://www.sedarplus.ca/csa-party/service/create.html?targetAppCode=csa-party&service=searchIndustryParticipant",
   },
   {
     ticker: "BN",
@@ -137,7 +137,7 @@ export const HAND_CURATED_ISSUERS: Issuer[] = [
       "Global alternative asset manager with ~$1 trillion AUM across real estate, infrastructure, renewable power, private equity, and credit.",
     websiteUrl: "https://www.brookfield.com",
     sedarProfileUrl:
-      "https://www.sedarplus.ca/csa-party/records/document.html?id=00006689",
+      "https://www.sedarplus.ca/csa-party/service/create.html?targetAppCode=csa-party&service=searchIndustryParticipant",
   },
 ];
 
