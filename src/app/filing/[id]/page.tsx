@@ -86,10 +86,14 @@ export default async function FilingPage({
             target="_blank"
             rel="noopener noreferrer"
             className="px-4 py-1.5 bg-terminal-navy text-white rounded hover:bg-terminal-dark-navy transition-colors"
-            title="Opens SEDAR+ document search — enter the issuer ticker and filing date manually"
+            title="SEDAR+ doesn't support deep-link URLs — opens their search form. Real document deep-links arrive when the crawler ships."
           >
-            Find on SEDAR+ ↗
+            Search on SEDAR+ ↗
           </a>
+          <span className="text-xs text-slate-500 self-center italic max-w-sm">
+            SEDAR+ doesn&apos;t expose static document URLs — opens their
+            search form. Phase 1 crawler will deep-link the actual filing.
+          </span>
           {filing.pageCount && (
             <span className="px-4 py-1.5 text-slate-500 self-center">
               {filing.pageCount} pages

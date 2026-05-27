@@ -16,6 +16,8 @@ export const dynamicParams = true;
  * Regulatory, Ownership, News, Other. Dense list rows. Sticky right rail
  * with company info.
  */
+// Exact BamSEC category names + grouping. Order matters — matches how
+// BamSEC's company page displays sections top-to-bottom.
 const CATEGORY_GROUPS: { id: string; label: string; types: FilingType[] }[] = [
   {
     id: "financials",
@@ -23,19 +25,29 @@ const CATEGORY_GROUPS: { id: string; label: string; types: FilingType[] }[] = [
     types: ["financial-statements", "mda", "aif"],
   },
   {
-    id: "regulatory",
-    label: "Regulatory & Material Events",
-    types: ["material-change", "prospectus", "early-warning"],
+    id: "prospectuses",
+    label: "Prospectuses and Registrations",
+    types: ["prospectus"],
   },
   {
     id: "ownership",
-    label: "Ownership & Governance",
-    types: ["proxy", "insider"],
+    label: "Ownership",
+    types: ["insider", "early-warning"],
   },
   {
     id: "news",
-    label: "News & Other",
-    types: ["news-release", "etf-mfr"],
+    label: "News",
+    types: ["news-release"],
+  },
+  {
+    id: "proxies",
+    label: "Proxies",
+    types: ["proxy"],
+  },
+  {
+    id: "other",
+    label: "Other",
+    types: ["material-change", "etf-mfr"],
   },
 ];
 
